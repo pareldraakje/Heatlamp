@@ -1,0 +1,17 @@
+# Heat Lamp
+# Created by 
+# Dragoler (idea and sprites) - http://creaturescaves.com/mycaves.php?section=Users&view=3131
+# Pilla (coding) - https://pillazilla.wordpress.com
+# 
+
+TAG "Agent Help 2 24 36485"
+"Heatlamp"
+"This lamp will help warm up (or cool down!) your more temperature sensitive Creatures. The arrows above and below the thermometer adjust the temperature around the lamp, while the heads on the back pick which sorts of Creatures it will attract! The lamp can also be turned off using the red button above the display, allowing the native temperature of the room to be shown instead. - Dragoler"
+TAG "ToolTip 2 24 36485 1"
+"Norn Home"
+TAG "ToolTip 2 24 36485 2"
+"Ettin Home"
+TAG "ToolTip 2 24 36485 3"
+"Grendel Home"
+
+

@@ -1,0 +1,44 @@
+"en-GB"
+
+
+group DSAG "Heatlamp"
+
+"Dependency 1" "heatlamp_dragoler.c16"
+"Dependency 2" "heatlamp.catalogue"
+"Dependency 3" "sc_1.wav"
+"Dependency 4" "gror.WAV"
+"Dependency 5" "Bee0.wav"
+"Dependency 6" "DahE.wav"
+"Dependency 7" "buzz.wav"
+"Agent Animation Gallery" "heatlamp_dragoler"
+"Agent Description" "A nifty little tool that makes a great place for Creatures to bask. This tool allows you to control the heat levels and home smells for your creatures. \n\nSprites + concept by Dragoler\nCoding by Pilla"
+"Agent Animation File" "heatlamp_dragoler.c16"
+"Agent Animation Gallery" "heatlamp_dragoler"
+"Web URL" "https://pillazilla.wordpress.com"
+"Web Label" "Pilla's DS Agents"
+"Remove script" "enum 2 24 36485\n	kill targ\nnext\nscrx 2 24 36485 10"
+
+"Script Count" 1
+"Script 1" @ "Heatlamp script.cos"
+
+"Agent Type" 0
+"Dependency Count" 7
+"Dependency Category 1" 2
+"Dependency Category 2" 7
+"Dependency Category 3" 1
+"Dependency Category 4" 1
+"Dependency Category 5" 1
+"Dependency Category 6" 1
+"Dependency Category 7" 1
+"Agent Sprite First Image" 11
+
+
+
+inline FILE "Bee0.wav" "Bee0.wav"
+inline FILE "DahE.wav" "DahE.wav"
+inline FILE "buzz.wav" "buzz.wav"
+inline FILE "gror.WAV" "gror.WAV"
+inline FILE "heatlamp.catalogue" "heatlamp.catalogue"
+inline FILE "heatlamp_dragoler.c16" "heatlamp_dragoler.c16"
+inline FILE "sc_1.wav" "sc_1.wav"
+

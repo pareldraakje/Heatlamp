@@ -1,0 +1,282 @@
+**
+** Heater + Creature Home
+**
+* CAOS2PRAY CHUNK
+*
+*# Pray-File "heatlamp.agents"
+*# DS-Name "Heatlamp"
+
+*# desc = "A nifty little tool that makes a great place for Creatures to bask. This tool allows you to control the heat levels and home smells for your creatures. \n\nSprites + concept by Dragoler\nCoding by Pilla"
+*# Agent Animation File = "heatlamp_dragoler.c16"
+*# Agent Sprite First Image = 11
+*# Agent Animation Gallery = "heatlamp_dragoler"
+*# Web URL = "https://pillazilla.wordpress.com"
+*# Web Label = "Pilla's DS Agents"
+
+*# attach heatlamp_dragoler.c16 heatlamp.catalogue
+*# attach sc_1.wav gror.WAV Bee0.wav DahE.wav buzz.wav
+
+**
+** Install script
+**
+
+reaf
+new: comp 2 24 36485 "heatlamp_dragoler" 12 0 3005
+rnge 150
+** mouseable, collisions, physics
+attr 194
+** act1, act2, deactivate, hit
+bhvr 15
+accg 3
+aero 1
+fric 90
+elas 10
+perm 100
+tick 20
+mvsf game "CreatorX" game "CreatorY"
+** Create the buttons
+** NORN HOME
+pat: butt 1 "heatlamp_dragoler" 12 2 28 53 1 [] 1001 1
+** ETTIN HOME
+pat: butt 2 "heatlamp_dragoler" 14 2 7 77 1 [] 1001 1
+** GRENDEL HOME
+pat: butt 3 "heatlamp_dragoler" 16 2 0 108 1 [] 1001 1
+** TEMPERATURE UP
+pat: butt 4 "heatlamp_dragoler" 18 1 74 92 1 [] 1002 1
+** TEMPERATURE DOWN
+pat: butt 5 "heatlamp_dragoler" 19 1 74 149 1 [] 1002 1
+** DISABLE
+pat: butt 6 "heatlamp_dragoler" 20 2 58 104 1 [] 1003 1
+** TEXT PART
+pat: fixd 7 "heatlamp_dragoler" 22 45 116 1 "WhiteOnTransparentChars"
+
+setv name "nornhome" 0
+setv name "ettinhome" 0
+setv name "grendelhome" 0
+setv name "temperature" 0.3
+
+part 0
+pose 11
+
+part 6
+frat 2
+anim [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 255]
+
+part 7
+frmt 2 8 2 6 0 0 2
+setv va00 prop grap posx posy 2
+mulv va00 10
+ptxt vtos va00
+
+** Creature deactivate script
+scrp 2 24 36485 0
+	stim writ from 90 1
+endm
+
+** Creature activate script
+scrp 2 24 36485 1
+	stim writ from 90 1
+endm
+
+** Creature activate 2 script
+scrp 2 24 36485 2
+	stim writ from 90 1
+endm
+
+** Creature hit script
+scrp 2 24 36485 3
+	stim writ from 92 1
+endm
+
+
+** Home emitter button scripts
+scrp 2 24 36485 1001
+	inst
+	mesg writ pntr 101
+	emit 16 0
+	emit 17 0
+	cato 24
+
+	doif _p1_ eq 1
+** Norn home
+		doif name "nornhome" eq 0
+			gsub disableEttin
+			gsub disableGrendel
+			gsub enableNorn
+		else
+			gsub disableNorn
+		endi
+	elif _p1_ eq 2
+** Ettin home
+		doif name "ettinhome" eq 0
+			gsub disableNorn
+			gsub disableGrendel
+			gsub enableEttin
+		else
+			gsub disableEttin
+		endi
+	elif _p1_ eq 3
+** Ettin home
+		doif name "grendelhome" eq 0
+			gsub disableNorn
+			gsub disableEttin
+			gsub enableGrendel
+		else
+			gsub disableGrendel
+		endi
+	endi
+
+	subr enableNorn
+		emit 15 .075
+		cato 30
+		setv name "nornhome" 1
+		part 1
+		pose 1
+		snde "Bee0"
+	retn
+
+	subr enableEttin
+		setv name "roomtype" rtyp grap posx posy
+		doif name "roomtype" ne 8 and name "roomtype" ne 9
+			rtyp grap posx posy 10
+		endi
+		emit 17 .005
+		cato 32
+		attr 192
+		setv name "ettinhome" 1
+		part 2
+		pose 1
+		snde "DahE"
+	retn
+
+	subr enableGrendel
+		emit 16 .01
+		cato 31
+		setv name "grendelhome" 1
+		part 3
+		pose 1
+		snde "gror"
+	retn
+	subr disableNorn
+		emit 15 0
+		part 1
+		pose 0
+		setv name "nornhome" 0
+	retn
+
+	subr disableEttin
+		rtyp grap posx posy name "roomtype"
+		emit 17 0
+		part 2
+		pose 0
+		attr 194
+		setv name "ettinhome" 0
+	retn
+
+	subr disableGrendel
+		emit 16 0
+		part 3
+		pose 0
+		setv name "grendelhome" 0
+	retn
+
+endm
+
+** Temperature control scripts
+scrp 2 24 36485 1002
+	mesg writ pntr 101
+	part 0
+	doif pose ne 11
+		snde "sc_1"
+		tick 20
+		setv va00 pose
+		doif _p1_ eq 4
+			addv va00 1
+			doif va00 gt 10
+				setv va00 0
+			endi
+		elif _p1_ eq 5
+			subv va00 1
+			doif va00 lt 0
+				setv va00 10
+			endi
+		endi
+		pose va00
+		doif carr eq null and fall eq 0
+			mulv va00 0.1
+			setv name "temperature" va00
+			prop grap posx posy 2 name "temperature"
+		endi
+	endi
+endm
+
+scrp 2 24 36485 1003
+	mesg writ pntr 101
+	part 0
+	snde "buzz"
+	doif pose ne 11
+		pose 11
+		part 6
+		frat 2
+		anim [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 255]
+	else
+		setv va00 name "temperature"
+		mulv va00 10
+		pose va00
+		part 6
+		pose 1
+	endi
+endm
+
+
+scrp 2 24 36485 9
+	tick 20
+	doif pose ne 11
+		part 7
+		alph 255 1
+		doif carr eq null and fall eq 0
+			part 0
+			setv va00 pose
+			mulv va00 0.1
+			setv name "temperature" va00
+			prop grap posx posy 2 name "temperature"
+
+			doif name "temperature" lt 0.1
+				esee 3 4 0
+					doif targ <> null
+						doif carr = null
+							doif code eq -1
+								tick 3000
+							endi
+						endi
+					endi
+				next
+			elif name "temperature" gt 0.5
+				etch 3 4 0
+					doif targ <> null
+						doif carr = null
+							doif code eq -1
+								tick rand 5 15
+							endi
+						endi
+					endi
+				next
+			endi
+		endi
+	else
+		doif grap posx posy ne -1
+			part 7
+			alph 0 0
+			setv va00 prop grap posx posy 2
+			mulv va00 10
+			ptxt vtos va00
+		endi
+	endi
+endm
+
+
+rscr
+enum 2 24 36485
+	kill targ
+next
+scrx 2 24 36485 10
